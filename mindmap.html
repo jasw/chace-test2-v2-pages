@@ -1,200 +1,269 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Chace Test 2 v2 — Mind Map</title>
-  <style>
-    html, body { margin:0; padding:0; background:#020202; color:#f6eef1; font-family:Inter,Arial,sans-serif; }
-    .wrap { padding:18px 18px 30px; }
-    .hint { color:#d0c4cb; font-size:14px; margin:0 auto 14px; max-width:1480px; }
-    .nav { color:#cfe5ff; font-size:14px; margin:0 auto 14px; max-width:1480px; }
-    .nav a { color:#8fd3ff; margin-right:18px; }
-    .viewport { max-width:1480px; margin:0 auto; overflow:auto; border-radius:12px; box-shadow:inset 0 0 0 1px rgba(255,255,255,.05); background:#020202; }
-    svg { display:block; }
-    a text { text-decoration:none; }
-    a:hover text { fill:#fff; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chace Test 2 v2 — Mind Map</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+  :root {
+    --bg:#0a0d12; --panel:#141923; --line:rgba(255,255,255,.10);
+    --fg:#eef2f8; --muted:#9fb1cc; --accent:#8fd3ff;
+    --pink:#ff84bc; --yellow:#ffd667; --green:#9aff7a; --cyan:#6de2ff; --rose:#ffb1d3;
+  }
+  html, body { margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:Inter,-apple-system,Arial,sans-serif; }
+  header { padding:20px 24px 4px; max-width:1480px; margin:0 auto; }
+  header h1 { font-size:22px; margin:0 0 6px; }
+  header p { color:var(--muted); margin:6px 0; font-size:14px; max-width:880px; line-height:1.5; }
+  header .nav a { color:var(--accent); margin-right:18px; font-size:14px; text-decoration:none; }
+  header .nav a:hover { text-decoration:underline; }
+  .stage { max-width:1480px; margin:8px auto 0; padding:0 18px 32px; position:relative; }
+  .map-shell { background:#06090e; border:1px solid var(--line); border-radius:14px; padding:6px; overflow:auto; min-height:560px; }
+  .mermaid { color:var(--fg); }
+  .mermaid svg { background:transparent !important; max-width:100%; height:auto; }
+  /* Make topic leaves obviously interactive */
+  .mermaid g.clickable { cursor:pointer; }
+  .mermaid g.clickable:hover rect,
+  .mermaid g.clickable:hover circle,
+  .mermaid g.clickable:hover path { stroke:#fff !important; stroke-width:2.5 !important; }
+  .mermaid g.clickable:hover text { fill:#fff !important; }
+  /* Drawer */
+  .drawer-backdrop { position:fixed; inset:0; background:rgba(0,0,0,.55); opacity:0; pointer-events:none; transition:opacity .18s ease; z-index:40; }
+  .drawer-backdrop.open { opacity:1; pointer-events:auto; }
+  .drawer { position:fixed; right:0; top:0; bottom:0; width:min(440px,92vw); background:#0f1420; border-left:1px solid var(--line); transform:translateX(100%); transition:transform .22s cubic-bezier(.2,.7,.2,1); z-index:50; box-shadow:-12px 0 36px rgba(0,0,0,.45); display:flex; flex-direction:column; }
+  .drawer.open { transform:translateX(0); }
+  .drawer header { padding:18px 22px 14px; border-bottom:1px solid var(--line); display:flex; align-items:flex-start; justify-content:space-between; gap:12px; max-width:none; margin:0; }
+  .drawer header .code-pill { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px; padding:2px 9px; border-radius:999px; background:#202838; border:1px solid #314057; color:#dbe7ff; display:inline-block; margin-right:8px; }
+  .drawer header h2 { margin:0; font-size:16px; line-height:1.35; color:var(--fg); font-weight:600; }
+  .drawer header .chap { color:var(--muted); font-size:12.5px; margin-top:4px; display:block; }
+  .drawer header button { background:transparent; border:0; color:var(--muted); font-size:22px; cursor:pointer; line-height:1; padding:0 4px; }
+  .drawer header button:hover { color:#fff; }
+  .drawer .body { padding:18px 22px; overflow:auto; }
+  .drawer .label { color:var(--muted); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; margin:0 0 6px; }
+  .drawer .definition { background:#161c2a; border:1px solid var(--line); border-left:3px solid var(--accent); padding:10px 14px; border-radius:8px; font-size:14px; line-height:1.55; margin:0 0 18px; color:#e3ebf8; }
+  .drawer ul { padding-left:18px; margin:0 0 18px; }
+  .drawer ul li { margin:4px 0; font-size:13.5px; line-height:1.5; color:#cfdcef; }
+  .drawer .meta { color:var(--muted); font-size:13px; margin:4px 0 16px; }
+  .drawer .actions a { display:inline-block; background:#1d2a44; border:1px solid #34507c; color:#cfe5ff; padding:7px 12px; border-radius:8px; text-decoration:none; font-size:13px; margin:6px 8px 0 0; }
+  .drawer .actions a:hover { background:#243657; }
+  .drawer .footer { padding:10px 22px 18px; color:var(--muted); font-size:12px; border-top:1px solid var(--line); }
+  .legend { color:var(--muted); font-size:12.5px; margin-top:10px; }
+  .legend kbd { background:#202838; border:1px solid #314057; padding:1px 6px; border-radius:4px; font-family:ui-monospace,Menlo,monospace; font-size:11.5px; color:#dbe7ff; }
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <p class="hint">Test 2 covers Functions (Core Ch15), Transformations (Core Ch16), Further Functions (AAHL Ch6), Exponentials (AAHL Ch2), and Logarithms (AAHL Ch3). Click any chapter or topic to jump into the practice pack. Scroll/zoom for detail.</p>
-    <p class="nav"><a href="practice-pack.html">Practice pack &rarr;</a><a href="standard-answer.html">Standard answers &rarr;</a></p>
-    <div class="viewport">
-      <svg viewBox="0 0 3400 2600" xmlns="http://www.w3.org/2000/svg">
-<rect width="3400" height="2600" fill="#020202"/>
-<path d="M220 1300 C 560 1300, 570 325.0, 926 325.0" stroke="#FF84BC" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.92"/>
-<path d="M220 1300 C 560 1300, 570 780.0, 926 780.0" stroke="#FFE972" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.92"/>
-<path d="M220 1300 C 560 1300, 570 1235.0, 926 1235.0" stroke="#B7FF7A" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.92"/>
-<path d="M220 1300 C 560 1300, 570 1690.0, 926 1690.0" stroke="#6DE2FF" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.92"/>
-<path d="M220 1300 C 560 1300, 570 2070.0, 926 2070.0" stroke="#FFB1D3" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.92"/>
-<path d="M974 325.0 C 1270 325.0, 1490 165.0, 1826 165.0" stroke="#FF84BC" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.78"/>
-<path d="M974 325.0 C 1270 325.0, 1490 245.0, 1826 245.0" stroke="#FF84BC" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.78"/>
-<path d="M974 325.0 C 1270 325.0, 1490 325.0, 1826 325.0" stroke="#FF84BC" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.78"/>
-<path d="M974 325.0 C 1270 325.0, 1490 405.0, 1826 405.0" stroke="#FF84BC" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.78"/>
-<path d="M974 325.0 C 1270 325.0, 1490 485.0, 1826 485.0" stroke="#FF84BC" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.78"/>
-<path d="M974 780.0 C 1270 780.0, 1490 780.0, 1826 780.0" stroke="#FFE972" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.78"/>
-<path d="M974 1235.0 C 1270 1235.0, 1490 1075.0, 1826 1075.0" stroke="#B7FF7A" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.78"/>
-<path d="M974 1235.0 C 1270 1235.0, 1490 1155.0, 1826 1155.0" stroke="#B7FF7A" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.78"/>
-<path d="M974 1235.0 C 1270 1235.0, 1490 1235.0, 1826 1235.0" stroke="#B7FF7A" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.78"/>
-<path d="M974 1235.0 C 1270 1235.0, 1490 1315.0, 1826 1315.0" stroke="#B7FF7A" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.78"/>
-<path d="M974 1235.0 C 1270 1235.0, 1490 1395.0, 1826 1395.0" stroke="#B7FF7A" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.78"/>
-<path d="M974 1690.0 C 1270 1690.0, 1490 1610.0, 1826 1610.0" stroke="#6DE2FF" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.78"/>
-<path d="M974 1690.0 C 1270 1690.0, 1490 1690.0, 1826 1690.0" stroke="#6DE2FF" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.78"/>
-<path d="M974 1690.0 C 1270 1690.0, 1490 1770.0, 1826 1770.0" stroke="#6DE2FF" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.78"/>
-<path d="M974 2070.0 C 1270 2070.0, 1490 2070.0, 1826 2070.0" stroke="#FFB1D3" stroke-width="2.6" fill="none" stroke-linecap="round" opacity="0.78"/>
-<path d="M974 325.0 C 1430 325.0, 2160 200.0, 2676 200.0" stroke="#FF84BC" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 325.0 C 1430 325.0, 2160 250.0, 2676 250.0" stroke="#FF84BC" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 325.0 C 1430 325.0, 2160 300.0, 2676 300.0" stroke="#FF84BC" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 325.0 C 1430 325.0, 2160 350.0, 2676 350.0" stroke="#FF84BC" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 325.0 C 1430 325.0, 2160 400.0, 2676 400.0" stroke="#FF84BC" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 325.0 C 1430 325.0, 2160 450.0, 2676 450.0" stroke="#FF84BC" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 780.0 C 1430 780.0, 2160 680.0, 2676 680.0" stroke="#FFE972" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 780.0 C 1430 780.0, 2160 730.0, 2676 730.0" stroke="#FFE972" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 780.0 C 1430 780.0, 2160 780.0, 2676 780.0" stroke="#FFE972" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 780.0 C 1430 780.0, 2160 830.0, 2676 830.0" stroke="#FFE972" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 780.0 C 1430 780.0, 2160 880.0, 2676 880.0" stroke="#FFE972" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 1235.0 C 1430 1235.0, 2160 1085.0, 2676 1085.0" stroke="#B7FF7A" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 1235.0 C 1430 1235.0, 2160 1135.0, 2676 1135.0" stroke="#B7FF7A" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 1235.0 C 1430 1235.0, 2160 1185.0, 2676 1185.0" stroke="#B7FF7A" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 1235.0 C 1430 1235.0, 2160 1235.0, 2676 1235.0" stroke="#B7FF7A" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 1235.0 C 1430 1235.0, 2160 1285.0, 2676 1285.0" stroke="#B7FF7A" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 1235.0 C 1430 1235.0, 2160 1335.0, 2676 1335.0" stroke="#B7FF7A" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 1235.0 C 1430 1235.0, 2160 1385.0, 2676 1385.0" stroke="#B7FF7A" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 1690.0 C 1430 1690.0, 2160 1590.0, 2676 1590.0" stroke="#6DE2FF" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 1690.0 C 1430 1690.0, 2160 1640.0, 2676 1640.0" stroke="#6DE2FF" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 1690.0 C 1430 1690.0, 2160 1690.0, 2676 1690.0" stroke="#6DE2FF" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 1690.0 C 1430 1690.0, 2160 1740.0, 2676 1740.0" stroke="#6DE2FF" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 1690.0 C 1430 1690.0, 2160 1790.0, 2676 1790.0" stroke="#6DE2FF" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 2070.0 C 1430 2070.0, 2160 1970.0, 2676 1970.0" stroke="#FFB1D3" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 2070.0 C 1430 2070.0, 2160 2020.0, 2676 2020.0" stroke="#FFB1D3" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 2070.0 C 1430 2070.0, 2160 2070.0, 2676 2070.0" stroke="#FFB1D3" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 2070.0 C 1430 2070.0, 2160 2120.0, 2676 2120.0" stroke="#FFB1D3" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<path d="M974 2070.0 C 1430 2070.0, 2160 2170.0, 2676 2170.0" stroke="#FFB1D3" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.42"/>
-<circle cx="200" cy="1300" r="14" fill="#7CFF79" filter="url(#g0)"/>
-<a href="practice-pack.html#overview"><text x="184" y="1272" fill="#f4edf0" font-size="32" font-weight="600" text-anchor="end" dominant-baseline="middle">Test 2</text></a>
-<text x="184" y="1304" fill="#9fb1cc" font-size="14" text-anchor="end" dominant-baseline="middle">66 past-paper questions</text>
-<circle cx="950" cy="325.0" r="10" fill="#fff6f6"/>
-<a href="practice-pack.html#ch-functions"><text x="932" y="314.0" fill="#FF84BC" font-size="22" font-weight="600" text-anchor="end" dominant-baseline="middle">Functions (Core HL 1, Ch15)</text></a>
-<text x="932" y="339.0" fill="#9fb1cc" font-size="13" text-anchor="end" dominant-baseline="middle">domain, range, graphs, composite, inverse</text>
-<circle cx="950" cy="780.0" r="10" fill="#fff6f6"/>
-<a href="practice-pack.html#ch-transformations"><text x="932" y="769.0" fill="#FFE972" font-size="22" font-weight="600" text-anchor="end" dominant-baseline="middle">Transformations of Functions (Core HL 1, Ch16)</text></a>
-<text x="932" y="794.0" fill="#9fb1cc" font-size="13" text-anchor="end" dominant-baseline="middle">translations, reflections, stretches, modulus</text>
-<circle cx="950" cy="1235.0" r="10" fill="#fff6f6"/>
-<a href="practice-pack.html#ch-further-functions"><text x="932" y="1224.0" fill="#B7FF7A" font-size="22" font-weight="600" text-anchor="end" dominant-baseline="middle">Further Functions (AAHL Book 2, Ch6)</text></a>
-<text x="932" y="1249.0" fill="#9fb1cc" font-size="13" text-anchor="end" dominant-baseline="middle">partial fractions, rational, odd/even, modulus</text>
-<circle cx="950" cy="1690.0" r="10" fill="#fff6f6"/>
-<a href="practice-pack.html#ch-exp"><text x="932" y="1679.0" fill="#6DE2FF" font-size="22" font-weight="600" text-anchor="end" dominant-baseline="middle">Exponential Functions (AAHL Book 2, Ch2)</text></a>
-<text x="932" y="1704.0" fill="#9fb1cc" font-size="13" text-anchor="end" dominant-baseline="middle">growth/decay, e^x, modelling</text>
-<circle cx="950" cy="2070.0" r="10" fill="#fff6f6"/>
-<a href="practice-pack.html#ch-log"><text x="932" y="2059.0" fill="#FFB1D3" font-size="22" font-weight="600" text-anchor="end" dominant-baseline="middle">Logarithms (AAHL Book 2, Ch3)</text></a>
-<text x="932" y="2084.0" fill="#9fb1cc" font-size="13" text-anchor="end" dominant-baseline="middle">log laws, base change, equation solving</text>
-<circle cx="1850" cy="165.0" r="6" fill="#fff2f2"/>
-<a href="practice-pack.html#topic-2-2"><text x="1866" y="156.0" fill="#f4edf0" font-size="16" font-weight="600" dominant-baseline="middle"><tspan fill="#FF84BC">2.2</tspan> · Function concept; domain & range; function notation; ...</text></a>
-<text x="1866" y="177.0" fill="#9fb1cc" font-size="12" dominant-baseline="middle">3 past-paper questions</text>
-<circle cx="1850" cy="245.0" r="6" fill="#fff2f2"/>
-<a href="practice-pack.html#topic-2-3"><text x="1866" y="236.0" fill="#f4edf0" font-size="16" font-weight="600" dominant-baseline="middle"><tspan fill="#FF84BC">2.3</tspan> · Graphs of functions; sketching; sums/differences</text></a>
-<text x="1866" y="257.0" fill="#9fb1cc" font-size="12" dominant-baseline="middle">2 past-paper questions</text>
-<circle cx="1850" cy="325.0" r="6" fill="#fff2f2"/>
-<a href="practice-pack.html#topic-2-4"><text x="1866" y="316.0" fill="#f4edf0" font-size="16" font-weight="600" dominant-baseline="middle"><tspan fill="#FF84BC">2.4</tspan> · Key features; intersections; composite & identity fun...</text></a>
-<text x="1866" y="337.0" fill="#9fb1cc" font-size="12" dominant-baseline="middle">8 past-paper questions</text>
-<circle cx="1850" cy="405.0" r="6" fill="#fff2f2"/>
-<a href="practice-pack.html#topic-2-5"><text x="1866" y="396.0" fill="#f4edf0" font-size="16" font-weight="600" dominant-baseline="middle"><tspan fill="#FF84BC">2.5</tspan> · Modelling: choosing a function class for a context</text></a>
-<text x="1866" y="417.0" fill="#9fb1cc" font-size="12" dominant-baseline="middle">0 past-paper questions</text>
-<circle cx="1850" cy="485.0" r="6" fill="#fff2f2"/>
-<a href="practice-pack.html#topic-2-8"><text x="1866" y="476.0" fill="#f4edf0" font-size="16" font-weight="600" dominant-baseline="middle"><tspan fill="#FF84BC">2.8</tspan> · Behaviour in context; increasing/decreasing; end beha...</text></a>
-<text x="1866" y="497.0" fill="#9fb1cc" font-size="12" dominant-baseline="middle">0 past-paper questions</text>
-<circle cx="1850" cy="780.0" r="6" fill="#fff2f2"/>
-<a href="practice-pack.html#topic-2-11"><text x="1866" y="771.0" fill="#f4edf0" font-size="16" font-weight="600" dominant-baseline="middle"><tspan fill="#FFE972">2.11</tspan> · Graph transformations: translation, reflection, stret...</text></a>
-<text x="1866" y="792.0" fill="#9fb1cc" font-size="12" dominant-baseline="middle">4 past-paper questions</text>
-<circle cx="1850" cy="1075.0" r="6" fill="#fff2f2"/>
-<a href="practice-pack.html#topic-1-11"><text x="1866" y="1066.0" fill="#f4edf0" font-size="16" font-weight="600" dominant-baseline="middle"><tspan fill="#B7FF7A">1.11</tspan> · Partial fractions</text></a>
-<text x="1866" y="1087.0" fill="#9fb1cc" font-size="12" dominant-baseline="middle">5 past-paper questions</text>
-<circle cx="1850" cy="1155.0" r="6" fill="#fff2f2"/>
-<a href="practice-pack.html#topic-2-13"><text x="1866" y="1146.0" fill="#f4edf0" font-size="16" font-weight="600" dominant-baseline="middle"><tspan fill="#B7FF7A">2.13</tspan> · Rational functions: asymptotes, oblique asymptote, sk...</text></a>
-<text x="1866" y="1167.0" fill="#9fb1cc" font-size="12" dominant-baseline="middle">14 past-paper questions</text>
-<circle cx="1850" cy="1235.0" r="6" fill="#fff2f2"/>
-<a href="practice-pack.html#topic-2-14"><text x="1866" y="1226.0" fill="#f4edf0" font-size="16" font-weight="600" dominant-baseline="middle"><tspan fill="#B7FF7A">2.14</tspan> · Odd/even functions; inverse functions; self-inverse</text></a>
-<text x="1866" y="1247.0" fill="#9fb1cc" font-size="12" dominant-baseline="middle">6 past-paper questions</text>
-<circle cx="1850" cy="1315.0" r="6" fill="#fff2f2"/>
-<a href="practice-pack.html#topic-2-15"><text x="1866" y="1306.0" fill="#f4edf0" font-size="16" font-weight="600" dominant-baseline="middle"><tspan fill="#B7FF7A">2.15</tspan> · Solving inequalities f(x) > g(x), graphical & algebraic</text></a>
-<text x="1866" y="1327.0" fill="#9fb1cc" font-size="12" dominant-baseline="middle">0 past-paper questions</text>
-<circle cx="1850" cy="1395.0" r="6" fill="#fff2f2"/>
-<a href="practice-pack.html#topic-2-16"><text x="1866" y="1386.0" fill="#f4edf0" font-size="16" font-weight="600" dominant-baseline="middle"><tspan fill="#B7FF7A">2.16</tspan> · Modulus / absolute-value graphs</text></a>
-<text x="1866" y="1407.0" fill="#9fb1cc" font-size="12" dominant-baseline="middle">3 past-paper questions</text>
-<circle cx="1850" cy="1610.0" r="6" fill="#fff2f2"/>
-<a href="practice-pack.html#topic-1-5"><text x="1866" y="1601.0" fill="#f4edf0" font-size="16" font-weight="600" dominant-baseline="middle"><tspan fill="#6DE2FF">1.5</tspan> · Exponents: index laws; rewrite to common base</text></a>
-<text x="1866" y="1622.0" fill="#9fb1cc" font-size="12" dominant-baseline="middle">6 past-paper questions</text>
-<circle cx="1850" cy="1690.0" r="6" fill="#fff2f2"/>
-<a href="practice-pack.html#topic-2-9"><text x="1866" y="1681.0" fill="#f4edf0" font-size="16" font-weight="600" dominant-baseline="middle"><tspan fill="#6DE2FF">2.9</tspan> · Exponential & log functions: graph, asymptote, inverse</text></a>
-<text x="1866" y="1702.0" fill="#9fb1cc" font-size="12" dominant-baseline="middle">5 past-paper questions</text>
-<circle cx="1850" cy="1770.0" r="6" fill="#fff2f2"/>
-<a href="practice-pack.html#topic-2-10"><text x="1866" y="1761.0" fill="#f4edf0" font-size="16" font-weight="600" dominant-baseline="middle"><tspan fill="#6DE2FF">2.10</tspan> · Solving exponential equations / models in context</text></a>
-<text x="1866" y="1782.0" fill="#9fb1cc" font-size="12" dominant-baseline="middle">4 past-paper questions</text>
-<circle cx="1850" cy="2070.0" r="6" fill="#fff2f2"/>
-<a href="practice-pack.html#topic-1-7"><text x="1866" y="2061.0" fill="#f4edf0" font-size="16" font-weight="600" dominant-baseline="middle"><tspan fill="#FFB1D3">1.7</tspan> · Log laws; change of base; solving exponential/log equ...</text></a>
-<text x="1866" y="2082.0" fill="#9fb1cc" font-size="12" dominant-baseline="middle">6 past-paper questions</text>
-<circle cx="2700" cy="200.0" r="4" fill="#ffdede"/>
-<text x="2714" y="200.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">domain & range explicit</text>
-<circle cx="2700" cy="250.0" r="4" fill="#ffdede"/>
-<text x="2714" y="250.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">function notation, identity check</text>
-<circle cx="2700" cy="300.0" r="4" fill="#ffdede"/>
-<text x="2714" y="300.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">compose in correct order</text>
-<circle cx="2700" cy="350.0" r="4" fill="#ffdede"/>
-<text x="2714" y="350.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">inverse via swap-x-y, restrict domain</text>
-<circle cx="2700" cy="400.0" r="4" fill="#ffdede"/>
-<text x="2714" y="400.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">interpret parameters in words</text>
-<circle cx="2700" cy="450.0" r="4" fill="#ffdede"/>
-<text x="2714" y="450.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">what graph features mean physically</text>
-<circle cx="2700" cy="680.0" r="4" fill="#ffdede"/>
-<text x="2714" y="680.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">y = a f(b(x − c)) + d  decode in order</text>
-<circle cx="2700" cy="730.0" r="4" fill="#ffdede"/>
-<text x="2714" y="730.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">stretch BEFORE translate when both</text>
-<circle cx="2700" cy="780.0" r="4" fill="#ffdede"/>
-<text x="2714" y="780.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">reflections in axes vs y = x</text>
-<circle cx="2700" cy="830.0" r="4" fill="#ffdede"/>
-<text x="2714" y="830.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">horizontal stretch by factor 1/b</text>
-<circle cx="2700" cy="880.0" r="4" fill="#ffdede"/>
-<text x="2714" y="880.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">modulus reflections |f(x)| and f(|x|)</text>
-<circle cx="2700" cy="1085.0" r="4" fill="#ffdede"/>
-<text x="2714" y="1085.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">decompose by factor type (linear, repeated, irreducible quadratic)</text>
-<circle cx="2700" cy="1135.0" r="4" fill="#ffdede"/>
-<text x="2714" y="1135.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">vertical/horizontal/oblique asymptote rules</text>
-<circle cx="2700" cy="1185.0" r="4" fill="#ffdede"/>
-<text x="2714" y="1185.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">polynomial division for oblique asymptote</text>
-<circle cx="2700" cy="1235.0" r="4" fill="#ffdede"/>
-<text x="2714" y="1235.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">odd/even: f(-x) test, symmetry</text>
-<circle cx="2700" cy="1285.0" r="4" fill="#ffdede"/>
-<text x="2714" y="1285.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">self-inverse: f∘f = identity</text>
-<circle cx="2700" cy="1335.0" r="4" fill="#ffdede"/>
-<text x="2714" y="1335.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">split |f(x)| into cases or sketch</text>
-<circle cx="2700" cy="1385.0" r="4" fill="#ffdede"/>
-<text x="2714" y="1385.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">solve inequalities by intersection / sign chart</text>
-<circle cx="2700" cy="1590.0" r="4" fill="#ffdede"/>
-<text x="2714" y="1590.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">index laws fluency</text>
-<circle cx="2700" cy="1640.0" r="4" fill="#ffdede"/>
-<text x="2714" y="1640.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">rewrite to base e or base 10</text>
-<circle cx="2700" cy="1690.0" r="4" fill="#ffdede"/>
-<text x="2714" y="1690.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">growth k > 0, decay k < 0</text>
-<circle cx="2700" cy="1740.0" r="4" fill="#ffdede"/>
-<text x="2714" y="1740.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">horizontal asymptote on the right (decay) or left (growth)</text>
-<circle cx="2700" cy="1790.0" r="4" fill="#ffdede"/>
-<text x="2714" y="1790.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">applied modelling: half-life, doubling time, logistic</text>
-<circle cx="2700" cy="1970.0" r="4" fill="#ffdede"/>
-<text x="2714" y="1970.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">log_a(xy) = log_a x + log_a y</text>
-<circle cx="2700" cy="2020.0" r="4" fill="#ffdede"/>
-<text x="2714" y="2020.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">log_a(x^n) = n log_a x</text>
-<circle cx="2700" cy="2070.0" r="4" fill="#ffdede"/>
-<text x="2714" y="2070.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">change of base: log_a x = ln x / ln a</text>
-<circle cx="2700" cy="2120.0" r="4" fill="#ffdede"/>
-<text x="2714" y="2120.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">turn exp equations into linear via taking ln</text>
-<circle cx="2700" cy="2170.0" r="4" fill="#ffdede"/>
-<text x="2714" y="2170.0" fill="#d8c8d0" font-size="14" dominant-baseline="middle">respect domain x > 0 in any log argument</text>
-<text x="950" y="48" fill="#9fb1cc" font-size="14" text-anchor="middle">Chapters</text>
-<text x="1850" y="48" fill="#9fb1cc" font-size="14" text-anchor="middle">Syllabus codes</text>
-<text x="2700" y="48" fill="#9fb1cc" font-size="14" text-anchor="middle">Key concepts &amp; testing points</text>
-</svg>
-    </div>
+<header>
+  <h1>Chace Test 2 v2 — Mind Map</h1>
+  <p>Five chapters in scope. <strong>Tap any syllabus topic node</strong> (the leaf labels like <em>2.13 Rational functions</em>) to expand its IB definition, key things to revise, and a jump-link into the practice pack.</p>
+  <p class="nav">
+    <a href="practice-pack.html">Practice pack &rarr;</a>
+    <a href="standard-answer.html">Standard answers &rarr;</a>
+    <a href="index.html">Index</a>
+  </p>
+</header>
+
+<div class="stage">
+  <div class="map-shell">
+    <pre class="mermaid">
+mindmap
+  root(("Test 2<br/>66 questions"))
+    f["Functions<br/>Core HL 1, Ch15"]
+      f1("2.2 Function concept (3)")
+      f2("2.3 Function graphs (2)")
+      f3("2.4 Composite & inverse (8)")
+      f4("2.5 Modelling (scope)")
+      f5("2.8 Behaviour & end behaviour (scope)")
+    t["Transformations<br/>Core HL 1, Ch16"]
+      t1("2.11 Translations, reflections, stretches (4)")
+    x["Further Functions<br/>AAHL Book 2, Ch6"]
+      x1("1.11 Partial fractions (5)")
+      x2("2.13 Rational functions (14)")
+      x3("2.14 Odd/even & inverse (6)")
+      x4("2.15 Inequalities (scope)")
+      x5("2.16 Modulus equations (3)")
+    e["Exponential Functions<br/>AAHL Book 2, Ch2"]
+      e1("1.5 Exponent & log basics (6)")
+      e2("2.9 Exp & log functions (5)")
+      e3("2.10 Solving / modelling (4)")
+    l["Logarithms<br/>AAHL Book 2, Ch3"]
+      l1("1.7 Log laws & base change (6)")
+  </pre>
   </div>
+  <p class="legend">Tip: pinch / scroll to zoom inside the map. <kbd>Esc</kbd> closes the definition panel.</p>
+</div>
+
+<div class="drawer-backdrop" id="backdrop"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <header>
+    <div>
+      <span class="code-pill" id="d-code">—</span>
+      <h2 id="d-title">Topic</h2>
+      <span class="chap" id="d-chap"></span>
+    </div>
+    <button id="d-close" aria-label="Close">&times;</button>
+  </header>
+  <div class="body">
+    <p class="label">Official IB definition</p>
+    <p class="definition" id="d-def"></p>
+    <p class="label">Key concepts &amp; testing points</p>
+    <ul id="d-tips"></ul>
+    <p class="label">In this pack</p>
+    <p class="meta" id="d-meta"></p>
+    <div class="actions" id="d-actions"></div>
+  </div>
+  <div class="footer">Definitions sourced from the IB AA HL syllabus topic descriptions used by your practice DB.</div>
+</aside>
+
+<script>
+const TOPICS = {
+  "2.2":  { title:"Function concept", chapter:"Functions (Core HL 1, Ch15)",
+            def:"Function concept; domain, range, graph; function notation; inverse functions; f⁻¹(x); reflection in y = x.",
+            tips:["State domain and range explicitly — every part","Use f(a) notation, never reuse y","For an inverse: swap x and y, then solve for y","An inverse only exists where the function is one-to-one — restrict the domain if not","Check graphically: f and f⁻¹ are reflections in y = x"],
+            count:3, anchor:"topic-2-2" },
+  "2.3":  { title:"Function graphs", chapter:"Functions (Core HL 1, Ch15)",
+            def:"Function graphs; sketching from information; technology use; sums and differences of functions.",
+            tips:["Mark intercepts, asymptotes, max/min before drawing","Use GDC to confirm shape, then sketch by hand","Sums of functions: add y-values pointwise","Identify dominant term as |x| → ∞ to predict end behaviour"],
+            count:2, anchor:"topic-2-3" },
+  "2.4":  { title:"Composite & inverse functions", chapter:"Functions (Core HL 1, Ch15)",
+            def:"Key graph features; intersection points; composite functions; identity function; inverse functions.",
+            tips:["(f∘g)(x) = f(g(x)) — apply g first","Domain of f∘g must lie in domain of g","Composite of f and f⁻¹ gives the identity","Find intersections by solving f(x) = g(x) algebraically or via GDC"],
+            count:8, anchor:"topic-2-4" },
+  "2.5":  { title:"Modelling", chapter:"Functions (Core HL 1, Ch15)",
+            def:"Choosing a function class for a real-world context (linear, quadratic, exponential, sinusoidal, etc.).",
+            tips:["Match shape clues: constant rate → linear, doubling → exponential, periodic → sinusoid","Interpret parameters in context (units, what each constant means)","Validate by plugging in known values"],
+            count:0, anchor:"topic-2-5" },
+  "2.8":  { title:"Behaviour & end behaviour", chapter:"Functions (Core HL 1, Ch15)",
+            def:"Behaviour in context; increasing/decreasing intervals; end behaviour as x → ±∞.",
+            tips:["State intervals using ≤ / < correctly","Use f'(x) sign to confirm increasing/decreasing","End behaviour: read leading term or asymptote"],
+            count:0, anchor:"topic-2-8" },
+  "2.11": { title:"Graph transformations", chapter:"Transformations (Core HL 1, Ch16)",
+            def:"Graph transformations; translations; reflections; vertical and horizontal stretches; composite transformations.",
+            tips:["Decode y = a·f(b(x − c)) + d in this order: horizontal stretch by 1/b, horizontal shift c, vertical stretch a, vertical shift d","Negative a or b → reflection in the corresponding axis","|f(x)| reflects negative parts above x-axis; f(|x|) mirrors right side onto left","Apply stretches BEFORE translations when both are present"],
+            count:4, anchor:"topic-2-11" },
+  "1.11": { title:"Partial fractions", chapter:"Further Functions (AAHL Book 2, Ch6)",
+            def:"Partial fractions decomposition.",
+            tips:["Always factor the denominator first","Linear factor (x − a) → A/(x − a)","Repeated linear factor (x − a)² → A/(x − a) + B/(x − a)²","Irreducible quadratic → (Ax + B)/(quadratic)","Compare coefficients OR substitute convenient x-values"],
+            count:5, anchor:"topic-1-11" },
+  "2.13": { title:"Rational functions", chapter:"Further Functions (AAHL Book 2, Ch6)",
+            def:"Rational functions: asymptotes, oblique asymptote, sketching.",
+            tips:["Vertical asymptote: where denominator = 0 (and numerator ≠ 0)","Horizontal asymptote: compare degrees of numerator and denominator","If degree(num) = degree(den)+1, do polynomial long division → oblique asymptote","Mark intercepts, asymptotes, then sketch behaviour around each VA"],
+            count:14, anchor:"topic-2-13" },
+  "2.14": { title:"Odd/even & inverse with restrictions", chapter:"Further Functions (AAHL Book 2, Ch6)",
+            def:"Odd and even functions; inverse functions with domain restriction; self-inverse functions.",
+            tips:["Even: f(−x) = f(x), symmetric about y-axis","Odd: f(−x) = −f(x), symmetric about origin","Self-inverse: f(f(x)) = x — graph symmetric about y = x","Restrict the domain to the largest interval where f is one-to-one to define f⁻¹"],
+            count:6, anchor:"topic-2-14" },
+  "2.15": { title:"Inequalities f(x) ≥ g(x)", chapter:"Further Functions (AAHL Book 2, Ch6)",
+            def:"Solutions of g(x) ≥ f(x), both graphically and analytically.",
+            tips:["Sketch both curves, identify intersection x-values","Test a sample point in each interval","Or rearrange to h(x) = f(x) − g(x) ≥ 0 and use a sign chart"],
+            count:0, anchor:"topic-2-15" },
+  "2.16": { title:"Modulus equations & inequalities", chapter:"Further Functions (AAHL Book 2, Ch6)",
+            def:"Solution of modulus equations and inequalities.",
+            tips:["|expr| = k → split into expr = k and expr = −k","|f(x)| = g(x) requires g(x) ≥ 0","Sketch y = |f(x)| by reflecting any negative parts","For inequalities, square both sides only when both are non-negative"],
+            count:3, anchor:"topic-2-16" },
+  "1.5":  { title:"Exponents & log basics", chapter:"Exponential Functions (AAHL Book 2, Ch2)",
+            def:"Laws of exponents with integer exponents; logarithms base 10 and e; numerical evaluation.",
+            tips:["Index laws: a^m · a^n = a^(m+n); (a^m)^n = a^(mn); a^0 = 1","ln x means log_e x; log x without base on a GDC means log_10","Convert any base to e or 10 to use a calculator"],
+            count:6, anchor:"topic-1-5" },
+  "2.9":  { title:"Exp & log functions", chapter:"Exponential Functions (AAHL Book 2, Ch2)",
+            def:"Exponential functions; logarithmic functions.",
+            tips:["y = a^x has horizontal asymptote y = 0 (left for growth, right for decay)","y = log_a x is the inverse — reflection in y = x","Domain of log: x > 0","Always note asymptote and key point (0,1) for a^x or (1,0) for log"],
+            count:5, anchor:"topic-2-9" },
+  "2.10": { title:"Solving exp / log equations & modelling", chapter:"Exponential Functions (AAHL Book 2, Ch2)",
+            def:"Solving equations graphically and analytically; technology use; real-life applications.",
+            tips:["Take ln (or log) of both sides to linearise an exponential equation","Watch for hidden quadratic in e^x: substitute u = e^x","Real-world models: P = P₀ e^(kt) — k > 0 growth, k < 0 decay","Half-life: solve P₀ e^(kt) = P₀/2 → t = ln(½)/k"],
+            count:4, anchor:"topic-2-10" },
+  "1.7":  { title:"Log laws & base change", chapter:"Logarithms (AAHL Book 2, Ch3)",
+            def:"Laws of exponents with rational exponents; logarithm laws; base change; solving exponential equations.",
+            tips:["log_a(xy) = log_a x + log_a y","log_a(x/y) = log_a x − log_a y","log_a(x^n) = n · log_a x","Change of base: log_a x = ln x / ln a","Check the answer satisfies the domain x > 0 of every log term"],
+            count:6, anchor:"topic-1-7" },
+};
+
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'base',
+  securityLevel: 'loose',
+  themeVariables: {
+    background: '#06090e',
+    mainBkg: '#1a2238',
+    primaryColor: '#1a2238',
+    primaryTextColor: '#eef2f8',
+    primaryBorderColor: '#3a4b6e',
+    lineColor: '#5a78a8',
+    fontFamily: 'Inter,Arial,sans-serif',
+    fontSize: '15px'
+  },
+  mindmap: { padding: 16, maxNodeWidth: 320 }
+});
+
+const drawer = document.getElementById('drawer');
+const backdrop = document.getElementById('backdrop');
+function closeDrawer() {
+  drawer.classList.remove('open');
+  backdrop.classList.remove('open');
+  drawer.setAttribute('aria-hidden', 'true');
+}
+function openDrawer(code) {
+  const t = TOPICS[code];
+  if (!t) return;
+  document.getElementById('d-code').textContent = code;
+  document.getElementById('d-title').textContent = t.title;
+  document.getElementById('d-chap').textContent = t.chapter;
+  document.getElementById('d-def').textContent = t.def;
+  const ul = document.getElementById('d-tips');
+  ul.innerHTML = '';
+  t.tips.forEach(tip => { const li = document.createElement('li'); li.textContent = tip; ul.appendChild(li); });
+  const meta = document.getElementById('d-meta');
+  meta.textContent = t.count > 0
+    ? `${t.count} past-paper question${t.count === 1 ? '' : 's'} selected for this topic.`
+    : 'No selected past-paper questions for this topic — covered as scope only.';
+  const actions = document.getElementById('d-actions');
+  actions.innerHTML = '';
+  if (t.count > 0) {
+    const a = document.createElement('a');
+    a.href = `practice-pack.html#${t.anchor}`;
+    a.textContent = 'Open in practice pack →';
+    actions.appendChild(a);
+    const b = document.createElement('a');
+    b.href = `standard-answer.html`;
+    b.textContent = 'Standard answers';
+    actions.appendChild(b);
+  } else {
+    const a = document.createElement('a');
+    a.href = 'practice-pack.html';
+    a.textContent = 'Open practice pack';
+    actions.appendChild(a);
+  }
+  drawer.classList.add('open');
+  backdrop.classList.add('open');
+  drawer.setAttribute('aria-hidden', 'false');
+}
+backdrop.addEventListener('click', closeDrawer);
+document.getElementById('d-close').addEventListener('click', closeDrawer);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+async function attachClicks() {
+  // After Mermaid renders, look for all node groups and tag the topic leaves.
+  const svgs = document.querySelectorAll('.mermaid svg');
+  svgs.forEach(svg => {
+    svg.querySelectorAll('g.mindmap-node, g[class*="node"]').forEach(g => {
+      const txt = (g.textContent || '').trim();
+      const m = txt.match(/^(\d+\.\d+)/);
+      if (m && TOPICS[m[1]]) {
+        g.classList.add('clickable');
+        g.addEventListener('click', () => openDrawer(m[1]));
+        g.setAttribute('role', 'button');
+        g.setAttribute('tabindex', '0');
+        g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDrawer(m[1]); } });
+      }
+    });
+  });
+}
+
+(async () => {
+  await mermaid.run({ querySelector: '.mermaid' });
+  // small delay to ensure DOM is settled, then attach clicks
+  requestAnimationFrame(() => requestAnimationFrame(attachClicks));
+})();
+</script>
 </body>
 </html>
