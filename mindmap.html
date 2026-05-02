@@ -21,6 +21,18 @@
   .map-shell { background:#06090e; border:1px solid var(--line); border-radius:14px; padding:6px; overflow:auto; min-height:560px; }
   .mermaid { color:var(--fg); }
   .mermaid svg { background:transparent !important; max-width:100%; height:auto; }
+  /* Mermaid generates inline style="undefined;;;undefined" which leaves edges
+     stroked black against our dark background. Force the section palette. */
+  .mermaid svg path.edge { stroke-opacity:.85; }
+  .mermaid svg path.edge.section-edge--1 { stroke:#cfe5ff !important; }
+  .mermaid svg path.edge.section-edge-0  { stroke:#ff84bc !important; }
+  .mermaid svg path.edge.section-edge-1  { stroke:#ffd667 !important; }
+  .mermaid svg path.edge.section-edge-2  { stroke:#9aff7a !important; }
+  .mermaid svg path.edge.section-edge-3  { stroke:#6de2ff !important; }
+  .mermaid svg path.edge.section-edge-4  { stroke:#ffb1d3 !important; }
+  /* Trunk edges (depth-1) thicker, leaf edges (depth-3) thinner */
+  .mermaid svg path.edge.edge-depth-1 { stroke-width:5px !important; }
+  .mermaid svg path.edge.edge-depth-3 { stroke-width:2.4px !important; stroke-opacity:.7; }
   /* Make topic leaves obviously interactive */
   .mermaid g.clickable { cursor:pointer; }
   .mermaid g.clickable:hover rect,
