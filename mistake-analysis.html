@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chace Test 2 Mistake Analysis</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0b0d10;
+    --panel: #151922;
+    --panel-2: #10141c;
+    --text: #e9eef7;
+    --muted: #afbdd2;
+    --soft: #7d8da3;
+    --line: rgba(255,255,255,.11);
+    --accent: #8fd3ff;
+    --warn: #ffd27a;
+    --good: #8be28b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Inter, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 48px 28px 64px;
+    line-height: 1.55;
+  }
+  main { max-width: 980px; margin: 0 auto; }
+  a { color: var(--accent); }
+  nav { margin-bottom: 28px; color: var(--muted); font-size: 14px; }
+  h1 { margin: 0 0 8px; font-size: 34px; line-height: 1.12; }
+  h2 { margin: 34px 0 12px; font-size: 22px; }
+  h3 { margin: 0 0 8px; font-size: 18px; }
+  p { margin: 0 0 12px; }
+  .sub { color: var(--muted); margin-bottom: 22px; }
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin: 24px 0 28px;
+  }
+  .stat, .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.24);
+  }
+  .stat { padding: 15px 16px; }
+  .label { color: var(--soft); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+  .value { display: block; margin-top: 4px; font-size: 20px; font-weight: 700; color: #fff; }
+  .card { padding: 18px 20px; margin: 14px 0; }
+  .tag {
+    display: inline-block;
+    border: 1px solid rgba(143,211,255,.35);
+    background: rgba(143,211,255,.08);
+    color: #cfeeff;
+    border-radius: 999px;
+    padding: 2px 8px;
+    margin: 2px 5px 2px 0;
+    font-size: 12px;
+  }
+  .score { color: var(--warn); }
+  .ok { color: var(--good); }
+  ul, ol { margin: 8px 0 0 22px; padding: 0; }
+  li { margin: 7px 0; }
+  code {
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 1px 5px;
+    color: #dce8ff;
+  }
+  .note {
+    border-left: 3px solid var(--accent);
+    background: rgba(143,211,255,.07);
+    padding: 12px 14px;
+    color: #dce8ff;
+    margin: 18px 0;
+  }
+  .formula { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #f4f7ff; }
+  @media (max-width: 760px) {
+    body { padding: 32px 18px 48px; }
+    .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <nav><a href="index.html">Resource home</a> / <a href="practice-pack.html">practice pack</a> / <a href="standard-answer.html">standard answers</a></nav>
+
+  <h1>Chace Test 2 Mistake Analysis</h1>
+  <p class="sub">Math AA HL Test 2: Functions, logs and exponents. Findings captured from the marked scan and mistake log on 2026-06-14.</p>
+
+  <section class="summary" aria-label="Summary">
+    <div class="stat"><span class="label">Score</span><span class="value score">26 / 43</span></div>
+    <div class="stat"><span class="label">Percent</span><span class="value score">60%</span></div>
+    <div class="stat"><span class="label">Processed</span><span class="value">2026-06-14 13:14 NZST</span></div>
+    <div class="stat"><span class="label">Main topic</span><span class="value">2.13</span></div>
+  </section>
+
+  <div class="note">
+    Source scan: <code>data/2026-06-14_math_aa_hl_test2_functions_logs_exponents.pdf</code>. Chace said the pencil working in this scan was added after marking, so this analysis treats pencil annotations as corrections, not original test responses.
+  </div>
+
+  <h2>Highest-Value Fix</h2>
+  <div class="card">
+    <h3>Rational functions: asymptotes and graph sketches</h3>
+    <p>The visible marked losses are both on Q3, and both come from the same skill chain: compute the rational-function features cleanly, then transfer every feature onto a labelled sketch.</p>
+    <p><span class="tag">Topic 2.13</span><span class="tag">oblique asymptote</span><span class="tag">graph sketching</span></p>
+  </div>
+
+  <h2>Mistakes / Partial-Credit Losses</h2>
+
+  <article class="card">
+    <h3>Q3(a.iii) Oblique asymptote - 1/4</h3>
+    <p><strong>Question focus:</strong> For <span class="formula">f(x) = (x^2 - x - 12) / (2x - 15)</span>, find <span class="formula">a</span> and <span class="formula">b</span> where the oblique asymptote is <span class="formula">y = ax + b</span>.</p>
+    <p><strong>What went wrong:</strong> Chace attempted polynomial division, but the working did not reach the correct quotient/asymptote.</p>
+    <p><strong>Correct method:</strong> Divide <span class="formula">x^2 - x - 12</span> by <span class="formula">2x - 15</span>. The quotient is <span class="formula">(1/2)x + 13/4</span>, so the oblique asymptote is <span class="formula">y = (1/2)x + 13/4</span>. Therefore <span class="formula">a = 1/2</span> and <span class="formula">b = 13/4</span>.</p>
+    <p><strong>Error type:</strong> Conceptual / procedure not completed.</p>
+    <p><strong>Practice:</strong></p>
+    <ul>
+      <li>2023 November TZ1 Paper 2 Q11: rational function with vertical asymptote, x-axis crossings, oblique asymptote, sketch, range and inequality.</li>
+      <li>2024 November Paper 2 Q12: rational function with vertical and oblique asymptotes, derivative behavior and sketching.</li>
+    </ul>
+  </article>
+
+  <article class="card">
+    <h3>Q3(a.iv) Rational-function sketch - 1/3</h3>
+    <p><strong>Question focus:</strong> Sketch the graph of <span class="formula">f</span> for <span class="formula">-30 <= x <= 30</span>, clearly indicating intercepts and asymptotes.</p>
+    <p><strong>What went wrong:</strong> The sketch included some intercept/asymptote information, but the teacher marked missing curve detail plus scale/labels.</p>
+    <p><strong>Correct sketch checklist:</strong></p>
+    <ul>
+      <li>x-intercepts: <span class="formula">(-3, 0)</span> and <span class="formula">(4, 0)</span></li>
+      <li>y-intercept: <span class="formula">(0, 4/5)</span></li>
+      <li>vertical asymptote: <span class="formula">x = 15/2</span></li>
+      <li>oblique asymptote: <span class="formula">y = (1/2)x + 13/4</span></li>
+      <li>two branches approaching the asymptotes, with clear labels and scale</li>
+    </ul>
+    <p><strong>Error type:</strong> Incomplete communication on the graph.</p>
+    <p><strong>Practice:</strong></p>
+    <ul>
+      <li>2023 May TZ2 Paper 1 Q2: rational function asymptotes, intercepts and graph sketching.</li>
+      <li>2024 May TZ1 Paper 1 Q10: rational function sketching with asymptotes and intersections.</li>
+    </ul>
+  </article>
+
+  <h2>Correct / Mostly Correct</h2>
+  <div class="card">
+    <ul>
+      <li><span class="ok">Q1(a):</span> Correctly read <span class="formula">f(-3) = -1</span> from the graph.</li>
+      <li><span class="ok">Q1(b):</span> Correctly used the range of <span class="formula">f</span> as the domain of <span class="formula">f^-1</span>.</li>
+      <li><span class="ok">Q2(a):</span> Correctly identified the vertical asymptote <span class="formula">x = k</span> for <span class="formula">f(x) = (kx - 5)/(x - k)</span>.</li>
+      <li><span class="ok">Q3(a.i-a.iii):</span> The visible marked scan gives credit for the x-intercepts, y-intercept, and vertical asymptote.</li>
+    </ul>
+  </div>
+
+  <h2>Practice Plan</h2>
+  <div class="card">
+    <ol>
+      <li>Drill Topic 2.13 rational functions, especially polynomial division for oblique asymptotes.</li>
+      <li>Before every graph-sketch answer, write a five-point checklist: x-intercepts, y-intercept, vertical asymptote, horizontal/oblique asymptote, branch behavior.</li>
+      <li>Use <strong>2023 November TZ1 Paper 2 Q11</strong> as the best immediate practice match because it repeats the same rational-function sequence.</li>
+    </ol>
+  </div>
+</main>
+</body>
+</html>
